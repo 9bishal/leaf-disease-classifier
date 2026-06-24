@@ -20,14 +20,21 @@ import numpy as np
 from sklearn.metrics import classification_report, confusion_matrix
 import matplotlib.pyplot as plt
 
+import dataset as dataset_module
 from dataset import get_datasets, get_augmentation_layer, IMG_SIZE
 from tf_compat import require_tensorflow, tf
 
+
+LIGHTWEIGHT = os.environ.get("HF_SPACE") == "1"
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL_PATH = os.path.join(PROJECT_ROOT, "models", "leaf_disease_model.keras")
 HISTORY_PLOT_PATH = os.path.join(PROJECT_ROOT, "images", "training_curves.png")
 CONFUSION_MATRIX_PATH = os.path.join(PROJECT_ROOT, "images", "confusion_matrix.png")
+
+EPOCHS_A = 3 if LIGHTWEIGHT else 8
+EPOCHS_B = 2 if LIGHTWEIGHT else 6
+BATCH_SIZE = 8 if LIGHTWEIGHT else 16
 
 
 def build_model(num_classes: int, img_size: int = IMG_SIZE):
@@ -145,6 +152,7 @@ def plot_training_history(history_a, history_b, save_path: str):
     axes[1].legend()
 
     plt.tight_layout()
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
     plt.savefig(save_path, dpi=120)
     plt.close()
 
@@ -192,6 +200,7 @@ def evaluate_model(model: tf.keras.Model, val_ds, class_names: list):
 
 def run_training():
     require_tensorflow()
+    dataset_module.BATCH_SIZE = BATCH_SIZE
     train_ds, val_ds, class_names = get_datasets()
     num_classes = len(class_names)
     print(f"Classes ({num_classes}): {class_names}")
@@ -205,7 +214,7 @@ def run_training():
     history_a = model.fit(
         train_ds,
         validation_data=val_ds,
-        epochs=8,
+        epochs=EPOCHS_A,
         callbacks=[tf.keras.callbacks.EarlyStopping(patience=3, restore_best_weights=True)],
     )
 
@@ -230,7 +239,7 @@ def run_training():
         history_b = model.fit(
             train_ds,
             validation_data=val_ds,
-            epochs=6,
+            epochs=EPOCHS_B,
             callbacks=[tf.keras.callbacks.EarlyStopping(patience=3, restore_best_weights=True)],
         )
     else:
@@ -241,7 +250,7 @@ def run_training():
         history_b = model.fit(
             train_ds,
             validation_data=val_ds,
-            epochs=6,
+            epochs=EPOCHS_B,
             callbacks=[tf.keras.callbacks.EarlyStopping(patience=3, restore_best_weights=True)],
         )
 

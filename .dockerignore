@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+.git/
+.gitignore
+.gitkeep
+.pytest_cache/
+README.md
+notebooks/
+images/

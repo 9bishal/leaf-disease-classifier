@@ -1,0 +1,41 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# pytest cache
+.pytest_cache/
+
+# Local IDEs
+.vscode/
+.idea/
+
+# Environment and secrets
+.env
+.env.*
+secrets.toml
+.streamlit/secrets.toml
+
+# Misc local-only files
+*.log
+*.sqlite3
+
+# Generated artifacts
+models/
+images/training_curves.png
+images/confusion_matrix.png
+images/sample_classes_preview.png
+images/architecture_diagram.png

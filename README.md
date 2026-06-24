@@ -102,7 +102,7 @@ leaf-disease-classifier/
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/<your-username>/leaf-disease-classifier.git
+git clone https://github.com/9bishal/leaf-disease-classifier.git
 cd leaf-disease-classifier
 
 # 2. Install dependencies

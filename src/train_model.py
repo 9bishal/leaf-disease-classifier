@@ -260,6 +260,7 @@ def run_training():
     plot_training_history(history_a, history_b, HISTORY_PLOT_PATH)
 
     # --- Save ---
+    os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
     model.save(MODEL_PATH)
     print(f"\nModel saved to {MODEL_PATH}")
     print(f"Transfer learning used: {used_transfer_learning}")
